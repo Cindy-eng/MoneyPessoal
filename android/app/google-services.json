@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "150939498350",
+    "project_id": "todp-c04fe",
+    "storage_bucket": "todp-c04fe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150939498350:android:1b6c052b65aab34ad9337f",
+        "android_client_info": {
+          "package_name": "com.example.money"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEqA6snb0JyjWaczFebMEbG4zCmXC0ZZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:150939498350:android:5c896732795b227dd9337f",
+        "android_client_info": {
+          "package_name": "com.example.pdm_tp2"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEqA6snb0JyjWaczFebMEbG4zCmXC0ZZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
