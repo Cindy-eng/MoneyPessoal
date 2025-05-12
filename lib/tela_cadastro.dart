@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'tela_login.dart'; // importe sua tela de login
+import 'tela_login.dart';
 
 class TelaCadastro extends StatefulWidget {
   const TelaCadastro({super.key});
@@ -11,7 +10,7 @@ class TelaCadastro extends StatefulWidget {
 }
 
 class _TelaCadastroState extends State<TelaCadastro> {
-  final corFundo = const Color(0xFF0A1D37);
+  final corFundo  = const Color(0xFF0A1D37);
   final corPrincipal = Colors.white;
 
   final TextEditingController _usernameController = TextEditingController();
