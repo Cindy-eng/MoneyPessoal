@@ -1,10 +1,10 @@
-import 'package:flutter/material.dart';
+ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pdm_tp2/tela_boas_vindas.dart' show TelaBoasVindas;
 import 'tela_cadastro.dart';
 
 class TelaLogin extends StatefulWidget {
-  const TelaLogin({super.key});
-
+const TelaLogin({super.key});
   @override
   State<TelaLogin> createState() => _TelaLoginState();
 }
@@ -16,21 +16,62 @@ class _TelaLoginState extends State<TelaLogin> {
   final Color corPrincipal = Colors.white;
 
   Future<void> _login() async {
+    final email = _emailController.text.trim();
+    final senha = _senhaController.text;
+
+
     try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _senhaController.text,
+      UserCredential userCredential =  await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: email,
+        password: senha,
       );
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Login realizado com sucesso')),
-      );
-      // Navegue para a próxima tela aqui, se quiser
+
+  if (userCredential.user != null) {
+        // Usando a chave global do ScaffoldMessenger
+        _mostrarSnackBar(
+            context,
+            const SnackBar(content: Text('Login realizado com sucesso'))
+        );
+
+      }
+      // await FirebaseAuth.instance.signInWithEmailAndPassword(
+      //   email: email,
+      //   password: senha,
+      // );
+      //
+      // if (mounted) {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     const SnackBar(content: Text('Login realizado com sucesso')),
+      //   );
+      // }
+
     } on FirebaseAuthException catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro: ${e.message}')),
+        );
+      }
+    } catch (e){
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Erro: ${e.message}')),
+        SnackBar(content: Text('Erro: ${e.toString()}')),
       );
     }
+
+
   }
+  void _mostrarSnackBar(BuildContext context, SnackBar snackBar) {
+    final scaffold = ScaffoldMessenger.maybeOf(context);
+    if (scaffold != null && mounted) {
+      scaffold.showSnackBar(snackBar);
+    } else {
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
+      });
+    }
+  }
+
 
   @override
   Widget build(BuildContext context) {

@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:pdm_tp2/tela_boas_vindas.dart';
 import 'tela_login.dart';
 
 class TelaCadastro extends StatefulWidget {
-  const TelaCadastro({super.key});
+
+  const TelaCadastro({
+    super.key
+});
 
   @override
   State<TelaCadastro> createState() => _TelaCadastroState();
 }
 
 class _TelaCadastroState extends State<TelaCadastro> {
-  final corFundo  = const Color(0xFF0A1D37);
+  final corFundo = const Color(0xFF0A1D37);
   final corPrincipal = Colors.white;
 
   final TextEditingController _usernameController = TextEditingController();
@@ -19,6 +23,25 @@ class _TelaCadastroState extends State<TelaCadastro> {
   final TextEditingController _confirmaSenhaController = TextEditingController();
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  final ValueNotifier<bool> _camposPreenchidos = ValueNotifier(false);
+
+  @override
+  void initState() {
+    super.initState();
+    _usernameController.addListener(_verificarCampos);
+    _emailController.addListener(_verificarCampos);
+    _senhaController.addListener(_verificarCampos);
+    _confirmaSenhaController.addListener(_verificarCampos);
+  }
+
+  void _verificarCampos() {
+    final preenchidos = _usernameController.text.isNotEmpty &&
+        _emailController.text.isNotEmpty &&
+        _senhaController.text.isNotEmpty &&
+        _confirmaSenhaController.text.isNotEmpty;
+    _camposPreenchidos.value = preenchidos;
+  }
 
   void _cadastrar() async {
     final email = _emailController.text.trim();
@@ -33,10 +56,11 @@ class _TelaCadastroState extends State<TelaCadastro> {
     try {
       await _auth.createUserWithEmailAndPassword(email: email, password: senha);
       _mostrarMensagem('Cadastro realizado com sucesso!');
-      Navigator.push(
+      Navigator.pushReplacement(
         context,
         MaterialPageRoute(builder: (_) => const TelaLogin()),
       );
+
     } on FirebaseAuthException catch (e) {
       _mostrarMensagem(e.message ?? 'Erro ao cadastrar.');
     }
@@ -47,6 +71,8 @@ class _TelaCadastroState extends State<TelaCadastro> {
       SnackBar(content: Text(mensagem)),
     );
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,17 +101,24 @@ class _TelaCadastroState extends State<TelaCadastro> {
               const SizedBox(height: 16),
               _campoTexto(label: 'Confirma senha', isSenha: true, controller: _confirmaSenhaController),
               const SizedBox(height: 24),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: corPrincipal,
-                    foregroundColor: corFundo,
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                  ),
-                  onPressed: _cadastrar,
-                  child: const Text('Cadastrar'),
-                ),
+              ValueListenableBuilder<bool>(
+                valueListenable: _camposPreenchidos,
+                builder: (context, preenchido, _) {
+                  return preenchido
+                      ? SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: corPrincipal,
+                        foregroundColor: corFundo,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      onPressed: _cadastrar,
+                      child: const Text('Cadastrar'),
+                    ),
+                  )
+                      : const SizedBox.shrink();
+                },
               ),
             ],
           ),
@@ -117,5 +150,15 @@ class _TelaCadastroState extends State<TelaCadastro> {
         suffixIcon: isSenha ? const Icon(Icons.lock, color: Colors.white70) : null,
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _usernameController.dispose();
+    _emailController.dispose();
+    _senhaController.dispose();
+    _confirmaSenhaController.dispose();
+    _camposPreenchidos.dispose();
+    super.dispose();
   }
 }

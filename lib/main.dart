@@ -5,17 +5,22 @@ import 'tela_boas_vindas.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MeuApp());
+
+
+  runApp(MeuApp());
 }
 
 class MeuApp extends StatelessWidget {
-  const MeuApp({super.key});
+
+  const MeuApp({
+    super.key,
+
+  });
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Gestão Financeira Pessoal',
-      debugShowCheckedModeBanner: false,
       home: const TelaBoasVindas(),
     );
   }
