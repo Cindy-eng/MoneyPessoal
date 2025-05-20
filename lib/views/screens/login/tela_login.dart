@@ -1,7 +1,7 @@
  import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:pdm_tp2/tela_boas_vindas.dart' show TelaBoasVindas;
-import 'package:pdm_tp2/tela_principal.dart';
+import 'package:pdm_tp2/views/screens/login/tela_boas_vindas.dart' show TelaBoasVindas;
+import 'package:pdm_tp2/views/dashboard/dashboard_screen.dart' show DashboardScreen;
 import 'tela_cadastro.dart';
 
 class TelaLogin extends StatefulWidget {
@@ -30,7 +30,7 @@ class _TelaLoginState extends State<TelaLogin> {
   if (userCredential.user != null) {
         // Usando a chave global do ScaffoldMessenger
         Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (_)=> const TelaPrincipal()));
+        MaterialPageRoute(builder: (_)=> const DashboardScreen()));
 
       }
       // await FirebaseAuth.instance.signInWithEmailAndPassword(
