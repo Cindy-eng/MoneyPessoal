@@ -1,6 +1,7 @@
  import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pdm_tp2/tela_boas_vindas.dart' show TelaBoasVindas;
+import 'package:pdm_tp2/tela_principal.dart';
 import 'tela_cadastro.dart';
 
 class TelaLogin extends StatefulWidget {
@@ -28,10 +29,8 @@ class _TelaLoginState extends State<TelaLogin> {
 
   if (userCredential.user != null) {
         // Usando a chave global do ScaffoldMessenger
-        _mostrarSnackBar(
-            context,
-            const SnackBar(content: Text('Login realizado com sucesso'))
-        );
+        Navigator.pushReplacement(context,
+        MaterialPageRoute(builder: (_)=> const TelaPrincipal()));
 
       }
       // await FirebaseAuth.instance.signInWithEmailAndPassword(

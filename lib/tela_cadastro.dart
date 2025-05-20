@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:pdm_tp2/tela_boas_vindas.dart';
 import 'tela_login.dart';
-
+//distributionUrl=https\://services.gradle.org/distributions/gradle-8.10.2-all.zip
 class TelaCadastro extends StatefulWidget {
 
   const TelaCadastro({
